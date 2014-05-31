@@ -1,12 +1,12 @@
 $(window).load(function() {
 
 
-	
+
 	//First, set which image we will be opperating on
 	var oppImage = $('#annotationImage').find('img.annotatableImage');
 	//WE FIRST HAVE TO FIND HOW OFFSET AN ITEM IS FROM THE TOP-LEFT CORNER
 	var parentOffset = oppImage.position(); //Find how the element is offset
-	//dealing with resizing the screen	
+	//dealing with resizing the screen
 	$(window).resize(function() {
 		redrawAnnots(); //redraw all annotations as the window gets resized
 	});
@@ -14,7 +14,7 @@ $(window).load(function() {
 //Make a nice crosshair for our users, to help them work out what's going on
 	oppImage.css('cursor', 'crosshair');
 
-	
+
 	//Creating an Annotation object and array for jQuery use
 
 	function Annotation(locX, locY, display_id) {
@@ -165,7 +165,7 @@ $(window).load(function() {
 			closeButton = "<button class=\"close\" >&times;</button>";
 		}
 		var comment = '<div class="media comment" data-annotid="' + comment_number + '" data-userid="' + userID + '"><span class="badge badge-inverse pull-left">' + comment_number + '</span><a class="pull-left" href="#"><img class="media-object img-circle" src="' + photo + '" height="36" width="36">' + '</a>' + '<div class="media-body">' + '<p class="media-heading"><strong>' + f_name + ' ' + l_name + ' </strong>' + '<time class="timeago muted" datetime="' + timestamp + '">' + timestamp + '</time></p>' + closeButton + '<p>' + comment + '</p>' + '</div>' + '</div>';
-		//These two lines just hide the bit of text saying there are no comments        
+		//These two lines just hide the bit of text saying there are no comments
 		var nocomments = document.getElementById('nocomments');
 		nocomments.style.display = 'none';
 		$('#commentsDiv').append(comment);
@@ -179,7 +179,7 @@ $(window).load(function() {
 			} else {
 				var thecomment = result;
 				var comment = '<div class="media comment" data-annotid="' + annotID + '"><span class="badge badge-inverse pull-left">' + annotID + '</span><a class="pull-left" href="#">' + '<img class="media-object img-circle" src="' + userPhoto + '" height="36" width="36">' + '</a>' + '<div class="media-body">' + '<p class="media-heading"><strong>' + f_name + ' ' + l_name + '</strong><button class=\"close\">&times;</button><p>' + result + '</p>' + '</div>' + '</div>';
-				//These two lines just hide the bit of text saying there are no comments        
+				//These two lines just hide the bit of text saying there are no comments
 				var nocomments = document.getElementById('nocomments');
 				nocomments.style.display = 'none';
 				$('#commentsDiv').append(comment);
@@ -190,7 +190,7 @@ $(window).load(function() {
 			}
 		});
 	}
-	//To delete a comment, a user clicks on the .close button on the comment. Time to make this work. 	    	
+	//To delete a comment, a user clicks on the .close button on the comment. Time to make this work.
 	$('#commentsDiv').on('click', '.close', function() {
 		var commentDivID = $(this).closest('.comment');
 		var commentID = commentDivID.data('annotid');
@@ -213,18 +213,18 @@ $(window).load(function() {
 			}
 		});
 	});
-	
-	
+
+
 	//Add in the instruction tooltip
-	oppImage.tooltip({ 
+	oppImage.tooltip({
             placement: "top",
             title: "Click the image wherever you want to leave a comment."
         });
-        
+
         oppImage.on('mouseout', function(){
         //console.log("hi");
 	       oppImage.tooltip('destroy');
-	        
+
         });
         //Autoshowing the tooltip
         oppImage.tooltip('show');

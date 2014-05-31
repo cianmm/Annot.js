@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+	<title>Anot.JS</title>
+ <!--This is Remy Sharp's script for adding some HTML5 tag compatibility to older IE browsers-->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="style.css" media="screen" charset="utf-8">
+</head>
+<body>
+  <div class="annotjs">
+	   <img class="annotatableImage" src="image.jpg">
+  </div>
+<script src="jquery.js"></script>
+<script src="annot.js"></script>
+<script>
+$('.annotatableImage').annot();
+</script>
+</body>
+</html>

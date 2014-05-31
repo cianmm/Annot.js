@@ -1,0 +1,16 @@
+.annotatableImage {
+  display: relative;
+}
+
+.annotjs{
+	width: 36px;
+	height: 36px;
+  margin-left: -20px;
+  margin-top: -20px;
+	background-image: url('images/annotation-orange.png');
+	background-repeat: no-repeat;
+	color: #ffffff;
+	font-weight: bold;
+	text-align: center;
+	padding-top: 8px;
+}
