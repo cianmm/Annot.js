@@ -10,13 +10,13 @@ $.fn.annot = function (options) {
 
     var settings = $.extend({
       // defaults
-      load: []
+      printNumbers: true,
+      load: [],
+      class: "annotjs"
     }, options)
 
     // let's try to use options to put annotsArray[] into the options.
     // if one is provided, we'll use it, otherwise we'll create our own empty one.
-
-    // options: Numbers (true/false, default true) (provide array, default empty)
 
     var oppImage = $(this);
         oppImageParent = $(this).parent();
@@ -59,15 +59,23 @@ $.fn.annot = function (options) {
     function placeAnnot(annot) {
         var fromTop = annot.locY * imageHeight;
         var fromLeft = annot.locX * imageWidth;
-        console.log(annotsArray);
-        var annot = $('<span class="annotjs" data-annotID="' + annot.id +
+
+
+        var annotToPlace = $('<span class=" ' + settings.class + '" data-annotID="' + annot.id +
             '" style="left: ' + fromLeft + 'px; top: ' + fromTop +
-            'px; position: absolute; ">' + annot.id + '</span>');
-        oppImageParent.append(annot);
+            'px; position: absolute; "></span>');
+
+
+        if (settings.printNumbers)
+        {
+          console.log(annot.id);
+          annotToPlace.append(annot.id);
+        }
+
+        oppImageParent.append(annotToPlace);
+        return annot;
     }
 
     oppImage.on('click', createAnnot);
-
-    return this;
 }
 }( jQuery ));
