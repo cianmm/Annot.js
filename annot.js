@@ -10,7 +10,7 @@ $.fn.annot = function (options) {
 
     var settings = $.extend({
       // defaults
-      printNumbers: true,
+      printID: true,
       load: [],
       class: "annotjs"
     }, options)
@@ -66,7 +66,7 @@ $.fn.annot = function (options) {
             'px; position: absolute; "></span>');
 
 
-        if (settings.printNumbers)
+        if (settings.printID)
         {
           console.log(annot.id);
           annotToPlace.append(annot.id);
