@@ -8,6 +8,7 @@ function Annot(locX, locY, id) {
 (function ($) {
     $.fn.annot = function (options) {
 
+        // SETUP
         var settings = $.extend({
             // defaults
             printID: true,
@@ -20,8 +21,9 @@ function Annot(locX, locY, id) {
 
         var oppImage = $(this);
         var oppImageParent = $(this).parent();
+        var imagePosition = oppImage.offset();
+        var oppImageParentPosition = oppImageParent.offset();
 
-        // SET THE BASICS
         // display a crosshair on hover
         oppImage.css('cursor', 'crosshair');
         // disable dragging on the image
@@ -31,6 +33,21 @@ function Annot(locX, locY, id) {
         // Some info we'll need to calculate where to place annots
         var imageWidth = oppImage.width();
         var imageHeight = oppImage.height();
+
+        // now we need to work out how much to offset the annotation by to keep
+        // it centered on the crosshair. To do that, let's create an annotation
+        // object, store the value we want and delete it. Damn this box is good
+
+        var fakeAnnot = $('<span class="' + settings.class + '"</span>').hide().appendTo("body");
+        var annotWidth = parseInt(fakeAnnot.css("width"), 10);
+        var annotHeight = parseInt(fakeAnnot.css("height"));
+        fakeAnnot.remove();
+
+
+        console.log("IMAGE");
+        console.log(" width = " + imageWidth);
+        console.log(" height = " + imageHeight);
+
 
         // Create an array to hold our objects in
         var annotsArray = settings.load;
@@ -45,28 +62,28 @@ function Annot(locX, locY, id) {
 
         //FUNCTIONALITY
         var createAnnot = function (e) {
-            var imagePosition = $(e.currentTarget).position();
-            var clickX = e.pageX - imagePosition.left;
-            var locX = clickX / imageWidth;
-            var clickY = e.pageY - imagePosition.top;
-            var locY = clickY / imageHeight;
+            var locX = (e.pageX - imagePosition.left) / imageWidth;
+            var locY = (e.pageY - imagePosition.top) / imageHeight;
+            console.log("IMAGEPOSITION \n left = " + imagePosition.left + " \n top = " + imagePosition.top)
+            console.log("MOUSECLICK \n x = " + e.pageX + " \n y = " + e.pageY)
+            console.log("CREATEANNOT \n x = " + locX + " \n y = " + locY)
             var annot = new Annot(locX, locY, annotsArray.length + 1);
             annotsArray.push(annot);
             placeAnnot(annot);
         };
 
         function placeAnnot(annot) {
-            var fromTop = annot.locY * imageHeight;
-            var fromLeft = annot.locX * imageWidth;
-
-
-            var annotToPlace = $('<span class=" ' + settings.class + '" data-annotID="' + annot.id +
-                '" style="left: ' + fromLeft + 'px; top: ' + fromTop +
-                'px; position: absolute; "></span>');
+            var outImagePosition = oppImage.position();
+            var fromLeft = annot.locX * imageWidth - annotWidth/2;
+            var fromTop = annot.locY * imageHeight - annotHeight/2;
+            console.log("PLACEANNOT \n x = " + fromLeft/imageWidth + " \n y = " + fromTop/imageHeight)
+            var annotToPlace = $('<span class=" ' + settings.class +
+              '" data-annotID="' + annot.id +
+              '" style="left: ' + fromLeft + 'px; top: ' + fromTop +
+              'px; position: absolute; "></span>');
 
 
             if (settings.printID) {
-                console.log(annot.id);
                 annotToPlace.append(annot.id);
             }
 
