@@ -40,13 +40,13 @@ function Annot(locX, locY, id) {
 
         var fakeAnnot = $('<span class="' + settings.class + '"</span>').hide().appendTo("body");
         var annotWidth = parseInt(fakeAnnot.css("width"), 10);
-        var annotHeight = parseInt(fakeAnnot.css("height"));
+        var annotHeight = parseInt(fakeAnnot.css("height"))
         fakeAnnot.remove();
 
 
-        console.log("IMAGE");
-        console.log(" width = " + imageWidth);
-        console.log(" height = " + imageHeight);
+        // console.log("IMAGE");
+        // console.log(" width = " + imageWidth);
+        // console.log(" height = " + imageHeight);
 
 
         // Create an array to hold our objects in
@@ -64,9 +64,12 @@ function Annot(locX, locY, id) {
         var createAnnot = function (e) {
             var locX = (e.pageX - imagePosition.left) / imageWidth;
             var locY = (e.pageY - imagePosition.top) / imageHeight;
-            console.log("IMAGEPOSITION \n left = " + imagePosition.left + " \n top = " + imagePosition.top)
-            console.log("MOUSECLICK \n x = " + e.pageX + " \n y = " + e.pageY)
-            console.log("CREATEANNOT \n x = " + locX + " \n y = " + locY)
+
+            // console.log("IMAGEPOSITION \n left = " + imagePosition.left +
+            // " \n top = " + imagePosition.top)
+            // console.log("MOUSECLICK \n x = " + e.pageX + " \n y = " + e.pageY)
+            // console.log("CREATEANNOT \n x = " + locX + " \n y = " + locY)
+
             var annot = new Annot(locX, locY, annotsArray.length + 1);
             annotsArray.push(annot);
             placeAnnot(annot);
@@ -76,7 +79,8 @@ function Annot(locX, locY, id) {
             var outImagePosition = oppImage.position();
             var fromLeft = annot.locX * imageWidth - annotWidth/2;
             var fromTop = annot.locY * imageHeight - annotHeight/2;
-            console.log("PLACEANNOT \n x = " + fromLeft/imageWidth + " \n y = " + fromTop/imageHeight)
+
+            // console.log("PLACEANNOT \n x = " + fromLeft/imageWidth + " \n y = " + fromTop/imageHeight)
             var annotToPlace = $('<span class=" ' + settings.class +
               '" data-annotID="' + annot.id +
               '" style="left: ' + fromLeft + 'px; top: ' + fromTop +
@@ -93,5 +97,7 @@ function Annot(locX, locY, id) {
 
         oppImage.on('click', createAnnot);
     };
+
+    return this;
 
 }(jQuery));
