@@ -1,11 +1,5 @@
 // Set up JS object for each annot
-function Annot(locX, locY, id) {
-    this.locX = locX;
-    this.locY = locY;
-    this.id = id;
-};
-
-;(function ($) {
+;(function ($, undefined) {
     $.fn.annot = function (options) {
 
         var settings = $.extend({}, $.fn.annot.defaults, options);
@@ -55,7 +49,7 @@ function Annot(locX, locY, id) {
         }
 
         //FUNCTIONALITY
-        var createAnnot = function (e) {
+        function createAnnot (e) {
             var locX = (e.pageX - imagePosition.left) / imageWidth;
             var locY = (e.pageY - imagePosition.top) / imageHeight;
 
@@ -64,9 +58,10 @@ function Annot(locX, locY, id) {
             // console.log("MOUSECLICK \n x = " + e.pageX + " \n y = " + e.pageY)
             // console.log("CREATEANNOT \n x = " + locX + " \n y = " + locY)
 
-            var annot = new Annot(locX, locY, annotsArray.length + 1);
+            var annot = new $.fn.annot.create(locX, locY, annotsArray.length + 1);
             annotsArray.push(annot);
             placeAnnot(annot);
+            console.log(annotsArray);
             settings.onCreateCallback.call(this);
         };
 
@@ -96,6 +91,12 @@ function Annot(locX, locY, id) {
     return this;
 
 }(jQuery));
+
+$.fn.annot.create = function Annot(locX, locY, id) {
+    this.locX = locX;
+    this.locY = locY;
+    this.id = id;
+};
 
 $.fn.annot.defaults = {
     printID: true,
