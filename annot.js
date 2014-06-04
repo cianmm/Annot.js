@@ -3,18 +3,12 @@ function Annot(locX, locY, id) {
     this.locX = locX;
     this.locY = locY;
     this.id = id;
-}
+};
 
-(function ($) {
+;(function ($) {
     $.fn.annot = function (options) {
 
-        // SETUP
-        var settings = $.extend({
-            // defaults
-            printID: true,
-            load: [],
-            class: "annotjs"
-        }, options);
+        var settings = $.extend({}, $.fn.annot.defaults, options);
 
         // let's try to use options to put annotsArray[] into the options.
         // if one is provided, we'll use it, otherwise we'll create our own empty one.
@@ -73,6 +67,7 @@ function Annot(locX, locY, id) {
             var annot = new Annot(locX, locY, annotsArray.length + 1);
             annotsArray.push(annot);
             placeAnnot(annot);
+            settings.onCreateCallback.call(this);
         };
 
         function placeAnnot(annot) {
@@ -92,7 +87,7 @@ function Annot(locX, locY, id) {
             }
 
             oppImageParent.append(annotToPlace);
-            return annot;
+            settings.onPlaceCallback.call(this);
         }
 
         oppImage.on('click', createAnnot);
@@ -101,3 +96,11 @@ function Annot(locX, locY, id) {
     return this;
 
 }(jQuery));
+
+$.fn.annot.defaults = {
+    printID: true,
+    load: [],
+    class: "annotjs",
+    onCreateCallback: function (){},
+    onPlaceCallback: function (){}
+}
