@@ -7,8 +7,8 @@
         // let's try to use options to put annotsArray[] into the options.
         // if one is provided, we'll use it, otherwise we'll create our own empty one.
 
-        var oppImage = $(this);
-        var oppImageParent = $(this).parent();
+        var oppImage = this;
+        var oppImageParent = this.parent();
         var imagePosition = oppImage.offset();
         var oppImageParentPosition = oppImageParent.offset();
 
@@ -28,7 +28,7 @@
 
         var fakeAnnot = $('<span class="' + settings.class + '"</span>').hide().appendTo("body");
         var annotWidth = parseInt(fakeAnnot.css("width"), 10);
-        var annotHeight = parseInt(fakeAnnot.css("height"))
+        var annotHeight = parseInt(fakeAnnot.css("height"), 10);
         fakeAnnot.remove();
 
 
@@ -49,7 +49,7 @@
         }
 
         //FUNCTIONALITY
-        function createAnnot (e) {
+        function createAnnot(e) {
             var locX = (e.pageX - imagePosition.left) / imageWidth;
             var locY = (e.pageY - imagePosition.top) / imageHeight;
 
@@ -63,12 +63,12 @@
             placeAnnot(annot);
             console.log(annotsArray);
             settings.onCreateCallback.call(this);
-        };
+        }
 
         function placeAnnot(annot) {
             var outImagePosition = oppImage.position();
-            var fromLeft = annot.locX * imageWidth - annotWidth/2;
-            var fromTop = annot.locY * imageHeight - annotHeight/2;
+            var fromLeft = annot.locX * imageWidth - annotWidth/2 + parseInt(oppImageParent.css('padding-left'));
+            var fromTop = annot.locY * imageHeight - annotHeight/2 + parseInt(oppImageParent.css('padding-top'));
 
             // console.log("PLACEANNOT \n x = " + fromLeft/imageWidth + " \n y = " + fromTop/imageHeight)
             var annotToPlace = $('<span class=" ' + settings.class +
@@ -104,4 +104,4 @@ $.fn.annot.defaults = {
     class: "annotjs",
     onCreateCallback: function (){},
     onPlaceCallback: function (){}
-}
+};
